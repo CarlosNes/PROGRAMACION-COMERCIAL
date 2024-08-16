@@ -1,0 +1,21 @@
+CREATE TABLE Proyectos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    fechaInicio DATE NOT NULL,
+    fechaFin DATE,
+    porcentajeCompletado INT NOT NULL DEFAULT 0
+);
+CREATE TABLE Empleados (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    puesto VARCHAR(100) NOT NULL,
+    fechaContratacion DATE NOT NULL,
+    salario DECIMAL(10, 2) NOT NULL,
+    proyectoId INT,
+    FOREIGN KEY (proyectoId) REFERENCES Proyectos(id)
+);
+
+

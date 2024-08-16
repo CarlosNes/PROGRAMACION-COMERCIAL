@@ -1,0 +1,42 @@
+
+post http://localhost:3000/empleados
+{
+    "nombre": "Carlos",
+    "apellido": "Cano",
+    "email": "carloscano@gmail.com",
+    "puesto": "programador jr",
+    "fechaContratacion": "2024-08-16",
+    "salario": 5000,
+    "proyectoId": 1
+}
+
+post http://localhost:3000/proyectos
+
+{
+    "nombre": "Telefonia",
+    "descripcion": "aprender angular",
+    "fechaInicio": "2024-08-16",
+    "fechaFin": "2024-12-01",
+    "porcentajeCompletado": 0
+}
+
+
+get http://localhost:3000/empleados
+
+getbyID http://localhost:3000/empleados/1
+
+put http://localhost:3000/empleados/1
+
+{
+    "nombre": "Carlos",
+    "apellido": "Cano",
+    "email": "carloscano@gmail.com",
+    "puesto": "programador jr",
+    "fechaContratacion": "2024-08-16",
+    "salario": 577000,
+    "proyectoId": 1
+}
+
+delete http://localhost:3000/empleados/1
+
+correr con npm start
