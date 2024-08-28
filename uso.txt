@@ -1,25 +1,34 @@
+correr con npm start
+
+insertar este consulta: 
+ALTER TABLE alertas
+ADD COLUMN descripcion VARCHAR(255);
+
+------------------------------------
+
 
 post http://localhost:3000/empleados
+
 {
-    "nombre": "Carlos",
+    "nombre": "Nestor",
     "apellido": "Cano",
-    "email": "carloscano@gmail.com",
+    "email": "nestorcano@gmail.com",
     "puesto": "programador jr",
-    "fechaContratacion": "2024-08-16",
+    "fechaContratacion": "2024-08-23",
     "salario": 5000,
     "proyectoId": 1
 }
 
+
 post http://localhost:3000/proyectos
 
 {
-    "nombre": "Telefonia",
-    "descripcion": "aprender angular",
-    "fechaInicio": "2024-08-16",
-    "fechaFin": "2024-12-01",
-    "porcentajeCompletado": 0
+    "nombre": "Desarrollador Back End  ",
+    "descripcion": "programador--dan",
+    "fechaInicio": "2024-08-19",
+    "fechaFin": "2024-08-23",
+    "porcentajeCompletado": 110
 }
-
 
 get http://localhost:3000/empleados
 
@@ -39,4 +48,27 @@ put http://localhost:3000/empleados/1
 
 delete http://localhost:3000/empleados/1
 
-correr con npm start
+
+ALERTAS:
+
+http://localhost:3000/alertas
+[
+  {
+    "id": 15,
+    "descripcion": "Próximo a vencer",
+    "nombre": "Desarrollador PRO ",
+    "fechaFin": "2024-09-02T00:00:00.000Z"
+  },
+  {
+    "id": 16,
+    "descripcion": "Próximo a vencer",
+    "nombre": "Desarrollador  ",
+    "fechaFin": "2024-09-02T00:00:00.000Z"
+  },
+  {
+    "id": 17,
+    "descripcion": "Producto válido",
+    "nombre": "Desarrollador Back End  ",
+    "fechaFin": "2024-08-23T00:00:00.000Z"
+  }
+]

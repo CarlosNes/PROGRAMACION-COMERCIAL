@@ -3,32 +3,41 @@ const Proyecto = require('../models/Proyecto');
 const { Op } = require('sequelize');
 
 module.exports = {
-    // Obtener todas las alertas (proyectos próximos a vencer)
+    // Obtener todas las alertas (proyectos próximos a vencer o válidos)
     getAll: async (req, res) => {
         try {
             const today = new Date();
+            today.setHours(0, 0, 0, 0); 
+
             const nextWeek = new Date(today);
             nextWeek.setDate(today.getDate() + 7);
 
             const proyectos = await Proyecto.findAll({
-                where: {
-                    fechaFin: {
-                        [Op.between]: [today, nextWeek]
-                    }
-                },
                 attributes: ['id', 'nombre', 'fechaFin']
             });
 
-            if (proyectos.length === 0) {
-                return res.status(200).json({ message: 'No hay proyectos próximos a vencer.' });
-            }
-
-            // Guardar los proyectos como alertas en la tabla `Alertas`
             const alertas = await Promise.all(proyectos.map(async (proyecto) => {
+                let descripcion;
+
+                const fechaFin = new Date(proyecto.fechaFin);
+                fechaFin.setHours(0, 0, 0, 0);
+
+                if (fechaFin >= today && fechaFin <= nextWeek) {
+                    descripcion = 'Proximo a vencer';
+                } else {
+                    descripcion = 'Producto valido';
+                }
+
                 const [alerta, created] = await Alerta.findOrCreate({
                     where: { nombre: proyecto.nombre, fechaFin: proyecto.fechaFin },
-                    defaults: { nombre: proyecto.nombre, fechaFin: proyecto.fechaFin }
+                    defaults: { descripcion }
                 });
+
+                if (!created && alerta.descripcion !== descripcion) {
+                    alerta.descripcion = descripcion;
+                    await alerta.save();
+                }
+
                 return alerta;
             }));
 
@@ -55,7 +64,8 @@ module.exports = {
         try {
             const nuevaAlerta = await Alerta.create({
                 nombre: req.body.nombre,
-                fechaFin: req.body.fechaFin
+                fechaFin: req.body.fechaFin,
+                descripcion: req.body.descripcion 
             });
             res.status(201).json(nuevaAlerta);
         } catch (err) {
